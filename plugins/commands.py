@@ -56,7 +56,7 @@ def formate_file_name(file_name):
 # Replace this with your channel's ID or username
 CHANNEL_SID = -1002165234514  # Convert '2165234514' to proper format with -100 prefix
 
-@app.on_message(filters.command("start") & filters.private)
+@Client.on_message(filters.command("star") & filters.private)
 async def send_messages(client, message):
     try:
         if "send-" in message.text:
