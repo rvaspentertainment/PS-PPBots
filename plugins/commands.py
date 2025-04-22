@@ -52,6 +52,33 @@ def formate_file_name(file_name):
 # Ask Doubt on telegram @KingVJ0
 
 
+
+# Replace this with your channel's ID or username
+CHANNEL_SID = -1002165234514  # Convert '2165234514' to proper format with -100 prefix
+
+@app.on_message(filters.command("start") & filters.private)
+async def send_messages(client, message):
+    try:
+        if "send-" in message.text:
+            parts = message.text.split("send-")[-1]
+            start_id, end_id = map(int, parts.split("-"))
+
+            for msg_id in range(start_id, end_id + 1):
+                try:
+                    await client.copy_message(
+                        chat_id=message.chat.id,
+                        from_chat_id=CHANNEL_SID,
+                        message_id=msg_id
+                    )
+                except Exception as e:
+                    await message.reply(f"Failed to send message {msg_id}: {e}")
+        else:
+            await message.reply("Invalid format. Use /start send-STARTID-ENDID")
+    except Exception as e:
+        await message.reply(f"Error: {e}")
+
+
+
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
     username = client.me.username
